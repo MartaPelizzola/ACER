@@ -1,0 +1,5 @@
+import("data.table")
+
+importFrom("stats", "pchisq", "rbinom")
+
+export("adapted.chisq.test", "adapted.cmh.test")

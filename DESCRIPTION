@@ -1,0 +1,11 @@
+Package: ACER
+Type: Package
+Title: Adapted Chi-squared and Cochran-Mantel-Haenszel tests to Evolve and Resequence
+Version: 1.0
+Date: 2018-05-03
+Author: Marta Pelizzola, Kerstin Gaertner
+Maintainer: Marta Pelizzola <marta.pelizzola@gmail.com>
+Description: Given a matrix containing allele frequency data the function 			adapted.chisq.test computes a Chi-squared test to detect the presence of 		selection. The function adapted.cmh.test computes a Cochran-Mantel-Haenszel for 	the same purpose in case of stratified data (i.e. replicate populations).
+License: What license is it under?
+LazyData: TRUE
+Depends: R (>= 3.3.1), data.table (>= 1.9.4)
