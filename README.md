@@ -34,7 +34,7 @@ of replicate populations which can be accounted for by the CMH test.
 For further information and examples refer to the manual typing ?adapted.cmh.test in R.
 ## Authors
 
-* **Marta Pelizola**
+* **Marta Pelizzola**
 * **Kerstin Gärtner**
 
 
