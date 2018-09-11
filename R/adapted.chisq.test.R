@@ -188,6 +188,11 @@ adapted.chisq.test <- function(freq, coverage, Ne, gen, poolSize=NULL, mincov=1,
                       locus are changed to 1 and to coverage-1 respectively.')
             } 
             
+            if (nrow(freq_int)==1) {
+                x_int1 <- matrix(x_int1, nrow=1)
+                coverage_int <- matrix(coverage_int, nrow=1)
+              }
+            
             if (MeanStart==TRUE) {
               allCountsVec <- cbind(as.numeric(x11),x_int1,as.numeric(x21))
               allNVec <- cbind(as.numeric(x1),coverage_int,as.numeric(x2))
@@ -256,6 +261,11 @@ adapted.chisq.test <- function(freq, coverage, Ne, gen, poolSize=NULL, mincov=1,
                 warning('The counts of the intermediate generations assuming values 0 or equal the coverage of the considered 
                         locus are changed to 1 and to coverage-1 respectively.')
               } 
+              
+              if (nrow(freq_int)==1) {
+                x_int1 <- matrix(x_int1, nrow=1)
+                coverage_int <- matrix(coverage_int, nrow=1)
+              }
               
               if (MeanStart==TRUE) {
                 allCountsVec <- cbind(as.numeric(x11R),x_int1,as.numeric(x21R))
