@@ -26,7 +26,7 @@ For further information and examples refer to the manual typing ?adapted.chisq.t
 
 ## Examples of usage for the adapted CMH test
 
-_p_values <- adapted.cmh.test(freq=afMat, coverage=covMat, Ne=rep(300, 3), gen=c(0,10), repl=3, poolSize=rep(1000, ncol(afMat)))_
+_p_values <- adapted.cmh.test(freq=afMat, coverage=covMat, Ne=rep(300, 3), gen=c(0,10), repl=1:3, poolSize=rep(1000, ncol(afMat)))_
 
 The same observations made for the chi-squared test can be done here. The "repl" parameter occurring here refers to the number 
 of replicate populations which can be accounted for by the CMH test.
