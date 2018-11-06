@@ -188,9 +188,9 @@ adapted.chisq.test <- function(freq, coverage, Ne, gen, poolSize=NULL, mincov=1,
                       locus are changed to 1 and to coverage-1 respectively.')
             } 
             
-            if (nrow(freq_int)==1) {
-                x_int1 <- matrix(x_int1, nrow=1)
-                coverage_int <- matrix(coverage_int, nrow=1)
+            if (is.matrix(freq_int)==FALSE & length(freq_int)==nrow(freq)) {
+                x_int1 <- matrix(x_int1, ncol=1)
+                coverage_int <- matrix(coverage_int, ncol=1)
               }
             
             if (MeanStart==TRUE) {
@@ -262,9 +262,9 @@ adapted.chisq.test <- function(freq, coverage, Ne, gen, poolSize=NULL, mincov=1,
                         locus are changed to 1 and to coverage-1 respectively.')
               } 
               
-              if (nrow(freq_int)==1) {
-                x_int1 <- matrix(x_int1, nrow=1)
-                coverage_int <- matrix(coverage_int, nrow=1)
+              if (is.matrix(freq_int)==FALSE & length(freq_int)==nrow(freq)) {
+                x_int1 <- matrix(x_int1, ncol=1)
+                coverage_int <- matrix(coverage_int, ncol=1)
               }
               
               if (MeanStart==TRUE) {
