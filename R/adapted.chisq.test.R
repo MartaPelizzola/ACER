@@ -298,7 +298,7 @@ adapted.chisq.test <- function(freq, coverage, Ne, gen, poolSize=NULL, mincov=1,
       res <- stat 
     }else if(RetVal==2){
       res <- cbind(stat,pchisq(stat, df=1, lower.tail=FALSE))
-      colnames(res) <- c("test statistic", "p-value")
+      colnames(res) <- c("test_statistic", "p.value")
     }
   }
   
