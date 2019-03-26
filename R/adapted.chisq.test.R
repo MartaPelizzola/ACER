@@ -66,6 +66,13 @@ adapted.chisq.test <- function(freq, coverage, Ne, gen, poolSize=NULL, mincov=1,
   if(!identical(dim(freq), dim(coverage)))
     stop("The dimensions of 'freq' (", dim(freq), ") and 'coverage' (", dim(coverage), ") have to be identical.")
   
+  if(!missing(Ne)){
+    if (!is.integer(Ne)){
+      Ne <- as.integer(Ne)
+      warning("Ne value(s) which are not integer are converted to integer")
+    }
+  }
+    
   npop <- ncol(freq)
   if(npop == 1)
     stop("Allele frequencies of at least two populations need to be provided.")
