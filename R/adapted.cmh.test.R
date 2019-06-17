@@ -245,11 +245,11 @@ adapted.cmh.test <- function(freq, coverage, Ne, gen, repl, poolSize=NULL, minco
             } else {
               if (TA==FALSE){
                 if (nrow(freq)==1) { sigd_mat <- (c(x11,x_int1)*(c(x1,coverage_int)-c(x11,x_int1))/c(x1,coverage_int)^2)*((1-(1-1/(2*rep(Ne,ng-1)))^(c(rep(sort(gen)[2]-ming,nreps),rep(sort(gen)[-c(1,2)]-sort(gen)[-c(1,ng)],each=nreps)))))}
-                else { sigd_mat <- (cbind(x11,x_int1)*(cbind(x1,coverage_int)-cbind(x11,x_int1))/cbind(x1,coverage_int)^2)*(matrix(rep(1-(1-1/(2*rep(Ne,ng-1)))^(c(rep(sort(gen)[2]-ming,nreps),rep(sort(gen)[-c(1,2)]-sort(gen)[-c(1,ng)],each=nreps))),nrow(x1)),nrow = nrow(x1), byrow = TRUE)) }
+                else { sigd_mat <- (cbind(x11,x_int1)*(cbind(x1,coverage_int)-cbind(x11,x_int1))/cbind(x1,coverage_int)^2)*(matrix(rep(1-(1-1/(2*rep(Ne,ng-1)))^(c(rep(sort(unique(gen))[2]-ming,nreps),rep(sort(unique(gen))[-c(1,2)]-sort(unique(gen))[-c(1,ng)],each=nreps))),nrow(x1)),nrow = nrow(x1), byrow = TRUE)) }
               } 
               if (TA==TRUE){
                 if (nrow(freq)==1) { sigd_mat <- (c(x11,x_int1)*(c(x1,coverage_int)-c(x11,x_int1))/c(x1,coverage_int)^2)*(c(rep(sort(gen)[2]-ming,nreps),rep(sort(gen)[-c(1,2)]-sort(gen)[-c(1,ng)],each=nreps)))/((2*rep(Ne,ng-1))) }
-                else { sigd_mat <- (cbind(x11,x_int1)*(cbind(x1,coverage_int)-cbind(x11,x_int1))/cbind(x1,coverage_int)^2)*(matrix(rep(c(rep(sort(gen)[2]-ming,nreps),rep(sort(gen)[-c(1,2)]-sort(gen)[-c(1,ng)],each=nreps)),nrow(x1))/((2*rep(Ne,ng-1))),nrow = nrow(x1), byrow = TRUE)) }
+                else { sigd_mat <- (cbind(x11,x_int1)*(cbind(x1,coverage_int)-cbind(x11,x_int1))/cbind(x1,coverage_int)^2)*(matrix(rep(c(rep(sort(unique(gen))[2]-ming,nreps),rep(sort(unique(gen))[-c(1,2)]-sort(unique(gen))[-c(1,ng)],each=nreps)),nrow(x1))/((2*rep(Ne,ng-1))),nrow = nrow(x1), byrow = TRUE)) }
               }
             }
             
