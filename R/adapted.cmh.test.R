@@ -81,17 +81,17 @@ adapted.cmh.test <- function(freq, coverage, Ne, gen, repl, poolSize=NULL, minco
   
   if (length(unique(gen))>1){
     if (order==0) { 
-      popInfo <- data.table(pop=1:ncol(freq), gen=c(rep(gen,nreps)), repl=rep(unique(repl),each=ng))
+      popInfo <- data.table(pop=1:ncol(freq), gen=c(rep(unique(gen),nreps)), repl=rep(unique(repl),each=ng))
     } else if (order==1) { 
-      popInfo <- data.table(pop=1:ncol(freq), gen=c(rep(gen,each=nreps)), repl=rep(unique(repl),ng)) 
+      popInfo <- data.table(pop=1:ncol(freq), gen=c(rep(unique(gen),each=nreps)), repl=rep(unique(repl),ng)) 
     } else {
       stop("The order of the columns in the matrix of allele frequency and coverages can assume only values 0 and 1")
     }
   } else {
     if (order==0) { 
-      popInfo <- data.table(pop=1:ncol(freq), gen=c(rep(gen,nreps)), repl=rep(unique(repl),each=2))
+      popInfo <- data.table(pop=1:ncol(freq), gen=c(rep(unique(gen),nreps)), repl=rep(unique(repl),each=2))
     } else if (order==1) { 
-      popInfo <- data.table(pop=1:ncol(freq), gen=c(rep(gen,nreps)), repl=rep(unique(repl),2)) 
+      popInfo <- data.table(pop=1:ncol(freq), gen=c(rep(unique(gen),nreps)), repl=rep(unique(repl),2)) 
     } else {
       stop("The order of the columns in the matrix of allele frequency and coverages can assume only values 0 and 1")
     }
