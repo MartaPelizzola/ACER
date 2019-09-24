@@ -7,6 +7,7 @@ possibility to apply each test to the following cases. Either without drift and 
 of the tests) or with only one of them or with both of them. The output of the function is a vector which contains one p-value 
 (and possibly one value of the test statistic) for each SNP provided in the input data.
 
+Please cite the related publication: K Spitzer, M Pelizzola, A Futschik, Modifying the Chi-square and the CMH test for population genetic inference: adapting to over-dispersion, (2019) https://arxiv.org/abs/1902.08127#
 ## Getting Started
 
 After downloading the package, it can be installed using the following command directly in R: install.packages("/Path/To/ACER.tar.gz", repos=NULL, type="source").
