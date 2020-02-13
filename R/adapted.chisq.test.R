@@ -2,7 +2,7 @@ adapted.chisq.test <- function(freq, coverage, Ne, gen, poolSize=NULL, mincov=1,
   
   if(!RetVal==0 && !RetVal==1 && !RetVal==2){
     stop("(", RetVal, ") is not a valid choice for RetVal.
-         RetVal needs to be 0 (p-value) or 1 (test statistic) or 2 (test statistic an p-value).")
+         RetVal needs to be 0 (p-value) or 1 (test statistic) or 2 (test statistic and p-value).")
   }
   
   if(IntGen==FALSE && length(gen)>2){
@@ -92,7 +92,7 @@ adapted.chisq.test <- function(freq, coverage, Ne, gen, poolSize=NULL, mincov=1,
     if(!missing(Ne))
       warning("Value of 'Ne' will be ignored because no random genetic drift is assumed.")
     
-    # individual sequencing - simple chi-squared test
+    # sample of alleles 
     if(is.null(poolSize)) {
       x1 <- coverage[,1]
       x2 <- coverage[,2]
@@ -149,7 +149,7 @@ adapted.chisq.test <- function(freq, coverage, Ne, gen, poolSize=NULL, mincov=1,
     ####### with drift
       } else {
         
-        # individual sequencing
+        # sample of alleles
         if(is.null(poolSize)) {
           ming <- min(gen)
           maxg <- max(gen)
