@@ -48,6 +48,9 @@ logical. TA = TRUE if Taylor approximation for the variance computation has to b
   \item{order}{
 factor. Suppose to have N generations and K replicates. If order = 0 then the columns in freq are assumed to follow the structure: generation0.replicate1, generation1.replicate1, generation2.replicate1, ..., generationN.replicate1, generation0.replicate2, ..., generationN.replicate2, ... ..., generation0.replicateK, ..., generationN.replicateK. If order = 1 then the columns in freq are assumed to follow the structure: generation0.replicate1, generation0.replicate2, generation0.replicate3, ..., generation0.replicateK, generation1.replicate1, ..., generation1.replicateK, ... ..., generationN.replicate1, ..., generationN.replicateK. 
 }
+  \item{correct}{
+logical. If correct = TRUE standard continuity correction of cmh is applied. Default is correct = FALSE.
+}
   \item{RetVal}{
 factor. If RetVal = 0 a vector containing one p-value per SNP is returned. If RetVal = 1 a vector containing one value of the test statistic per SNP is returned. If RetVal = 2 a matrix containing the test statistic values in the first column and the p-values in the second column is returned.
 }
