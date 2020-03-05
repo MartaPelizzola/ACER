@@ -1,4 +1,4 @@
-adapted.cmh.test <- function(freq, coverage, Ne, gen, repl, poolSize=NULL, mincov=1, MeanStart=TRUE, IntGen=FALSE, TA=FALSE, order=0, RetVal=0){
+adapted.cmh.test <- function(freq, coverage, Ne, gen, repl, poolSize=NULL, mincov=1, MeanStart=TRUE, IntGen=FALSE, TA=FALSE, order=0, correct = FALSE, RetVal=0){
 
   if(!RetVal==0 && !RetVal==1 && !RetVal==2){
     stop("(", RetVal, ") is not a valid choice for RetVal.
@@ -121,22 +121,37 @@ adapted.cmh.test <- function(freq, coverage, Ne, gen, repl, poolSize=NULL, minco
       }
       
       n <- x1 + x2
-      if(sum(x11==0)>0) {
-        x11[x11==0] <- rep(1,sum(x11==0))
-        warning('The counts that equal 0 or equal the coverage of the considered 
-                locus are changed to 1 or to coverage-1 respectively.')
+      if (nrow(freq)==1){
+        if(all(x11==0)) {
+          x11[x11==0] <- rep(1,sum(x11==0))
+          warning('The counts that equal 0 or equal the coverage in all replicates are changed to 1 or to coverage-1 respectively.')
+        }
+        if(all(x11==x1)){
+          x11[x11==x1] <- x1[x11==x1]-1
+          warning('The counts that equal 0 or equal the coverage in all replicates are changed to 1 or to coverage-1 respectively.')
+        } 
+      } else {
+        if (sum(rowSums(x11)==0)>0) {
+          x11[rowSums(x11)==0,1] <- rep(1,sum(rowSums(x11)==0))
+          warning('The counts that equal 0 or equal the coverage in all replicates are changed to 1 or to coverage-1 respectively.')
+        }
+        if(sum(rowSums(x11==x1)==nreps)>0){
+          x11[rowSums(x11==x1)==nreps] <- x1[rowSums(x11==x1)==nreps,1]-1
+          warning('The counts that equal 0 or equal the coverage in all replicates are changed to 1 or to coverage-1 respectively.')
+        } 
       }
-      if(sum(x11==x1)>0){
-        x11[x11==x1] <- x1[x11==x1]-1
-        warning('The counts assuming values 0 or equal the coverage of the considered 
-                locus are changed to 1 and to coverage-1 respectively.')
-      } 
       x12 <- x1 - x11
       x22 <- x2 - x21
       x_1 <- x11 + x21
       x_2 <- x12 + x22
-      if (nrow(freq)==1) {stat<-(sum(x11 - x1*x_1/n))^2/sum(x1*x_1*x2*x_2/(n^2*(n-1))) }
+      if (correct){
+        warning("A continuity correction is applied to the test statistic")
+        if (nrow(freq)==1) {stat<-(abs(sum(x11 - x1*x_1/n)) - 0.5)^2/sum(x1*x_1*x2*x_2/(n^2*(n-1))) }
+      else { stat<-(abs(rowSums(x11 - x1*x_1/n)) - 0.5)^2/rowSums(x1*x_1*x2*x_2/(n^2*(n-1)))  }
+      } else {
+        if (nrow(freq)==1) {stat<-(sum(x11 - x1*x_1/n))^2/sum(x1*x_1*x2*x_2/(n^2*(n-1))) }
       else { stat<-(rowSums(x11 - x1*x_1/n))^2/rowSums(x1*x_1*x2*x_2/(n^2*(n-1)))  }
+      }
       # pooled sequencing
       } else if(npop %% length(poolSize) == 0) {
         if (order==0) {
@@ -156,16 +171,25 @@ adapted.cmh.test <- function(freq, coverage, Ne, gen, repl, poolSize=NULL, minco
         }
         n<- R1+R2
         
-        if(sum(x11R==0)>0) {
-          x11R[x11R==0] <- rep(1,sum(x11R==0))
-          warning('The counts assuming values 0 or equal the coverage of the considered 
-                  locus are changed to 1 and to coverage-1 respectively.')
+        if (nrow(freq)==1){
+          if(all(x11R==0)) {
+            x11R[x11R==0] <- rep(1,sum(x11R==0))
+            warning('The counts that equal 0 or equal the coverage in all replicates are changed to 1 or to coverage-1 respectively.')
+          }
+          if(all(x11R==R1)){
+            x11R[x11R==R1] <- R1[x11R==R1]-1
+            warning('The counts that equal 0 or equal the coverage in all replicates are changed to 1 or to coverage-1 respectively.')
+          } 
+        } else {
+          if (sum(rowSums(x11R)==0)>0) {
+           x11R[rowSums(x11R)==0,1] <- rep(1,sum(rowSums(x11R)==0))
+           warning('The counts that equal 0 or equal the coverage in all replicates are changed to 1 or to coverage-1 respectively.')
+         }
+          if(sum(rowSums(x11R==R1)==nreps)>0){
+            x11R[rowSums(x11R==R1)==nreps] <- R1[rowSums(x11R==R1)==nreps,1]-1
+            warning('The counts that equal 0 or equal the coverage in all replicates are changed to 1 or to coverage-1 respectively.')
+          } 
         }
-        if(sum(x11R==R1)>0){
-          x11R[x11R==R1] <- R1[x11R==R1]-1
-          warning('The counts assuming values 0 or equal the coverage of the considered 
-                  locus are changed to 1 and to coverage-1 respectively.')
-        } 
         x12R <- R1 - x11R
         x22R <- R2 - x21R
         
@@ -195,16 +219,26 @@ adapted.cmh.test <- function(freq, coverage, Ne, gen, repl, poolSize=NULL, minco
           
           x11 <- matrix(freq[,popInfo$gen == ming], nrow = nrow(freq)) * x1
           
-          if(sum(x11==0)>0) {
-            x11[x11==0] <- rep(1,sum(x11==0))
-            warning('The counts assuming values 0 or equal the coverage of the considered 
-                    locus are changed to 1 and to coverage-1 respectively.')
-          }
-          if(sum(x11==x1)>0){
-            x11[x11==x1] <- x1[x11==x1]-1
-            warning('The counts assuming values 0 or equal the coverage of the considered 
-                    locus are changed to 1 and to coverage-1 respectively.')
-          } 
+          if (nrow(freq)==1){
+            if(all(x11==0)) {
+              x11[x11==0] <- rep(1,sum(x11==0))
+              warning('The counts that equal 0 or equal the coverage in all replicates are changed to 1 or to coverage-1 respectively.')
+            }
+            if(all(x11==x1)){
+              x11[x11==x1] <- x1[x11==x1]-1
+              warning('The counts that equal 0 or equal the coverage in all replicates are changed to 1 or to coverage-1 respectively.')
+            } 
+          } else {
+            if (sum(rowSums(x11)==0)>0) {
+              x11[rowSums(x11)==0,1] <- rep(1,sum(rowSums(x11)==0))
+              warning('The counts that equal 0 or equal the coverage in all replicates are changed to 1 or to coverage-1 respectively.')
+            }
+            if(sum(rowSums(x11==x1)==nreps)>0){
+              x11[rowSums(x11==x1)==nreps] <- x1[rowSums(x11==x1)==nreps,1]-1
+              warning('The counts that equal 0 or equal the coverage in all replicates are changed to 1 or to coverage-1 respectively.')
+            } 
+          }          
+          
           
           x12 <- x1 - x11
           x21 <- matrix(freq[,popInfo$gen == maxg], nrow = nrow(freq)) * x2
@@ -221,16 +255,16 @@ adapted.cmh.test <- function(freq, coverage, Ne, gen, repl, poolSize=NULL, minco
             
             x_int1 <- freq_int * coverage_int
             
-            if(sum(x_int1==0)>0) {
-              x_int1[x_int1==0] <- rep(1,sum(x_int1==0))
-              warning('The counts of the intermediate generations assuming values 0 or equal the coverage of the considered 
-                      locus are changed to 1 and to coverage-1 respectively.')
-            }
-            if(sum(x_int1==coverage_int)>0){
-              x_int1[x_int1==coverage_int] <- coverage_int[x_int1==coverage_int]-1
-              warning('The counts of the intermediate generations assuming values 0 or equal the coverage of the considered 
-                      locus are changed to 1 and to coverage-1 respectively.')
-            } 
+            #if(sum(x_int1==0)>0) {
+            #  x_int1[x_int1==0] <- rep(1,sum(x_int1==0))
+            #  warning('The counts of the intermediate generations assuming values 0 or equal the coverage of the considered 
+            #          locus are changed to 1 and to coverage-1 respectively.')
+            #}
+            #if(sum(x_int1==coverage_int)>0){
+             # x_int1[x_int1==coverage_int] <- coverage_int[x_int1==coverage_int]-1
+              #warning('The counts of the intermediate generations assuming values 0 or equal the coverage of the considered 
+               #       locus are changed to 1 and to coverage-1 respectively.')
+            #} 
             
             x_int2 <- coverage_int - x_int1
              if (order==0){
@@ -276,16 +310,25 @@ adapted.cmh.test <- function(freq, coverage, Ne, gen, repl, poolSize=NULL, minco
             
             x11R <- matrix(freq[,popInfo$gen == ming], nrow = nrow(freq)) * R1
             
-            if(sum(x11R==0)>0) {
-              x11R[x11R==0] <- rep(1,sum(x11R==0))
-              warning('The counts assuming values 0 or equal the coverage of the considered 
-                      locus are changed to 1 and to coverage-1 respectively.')
+            if (nrow(freq)==1){
+              if(all(x11R==0)) {
+                x11R[x11R==0] <- rep(1,sum(x11R==0))
+                warning('The counts that equal 0 or equal the coverage in all replicates are changed to 1 or to coverage-1 respectively.')
+              }
+              if(all(x11R==R1)){
+                x11R[x11R==R1] <- R1[x11R==R1]-1
+                warning('The counts that equal 0 or equal the coverage in all replicates are changed to 1 or to coverage-1 respectively.')
+              } 
+            } else {
+              if (sum(rowSums(x11R)==0)>0) {
+                x11R[rowSums(x11R)==0,1] <- rep(1,sum(rowSums(x11R)==0))
+                warning('The counts that equal 0 or equal the coverage in all replicates are changed to 1 or to coverage-1 respectively.')
             }
-            if(sum(x11R==R1)>0){
-              x11R[x11R==R1] <- R1[x11R==R1]-1
-              warning('The counts assuming values 0 or equal the coverage of the considered 
-                      locus are changed to 1 and to coverage-1 respectively.')
-            } 
+              if(sum(rowSums(x11R==R1)==nreps)>0){
+                x11R[rowSums(x11R==R1)==nreps] <- R1[rowSums(x11R==R1)==nreps,1]-1
+                warning('The counts that equal 0 or equal the coverage in all replicates are changed to 1 or to coverage-1 respectively.')
+              } 
+            }
             
             x12R <- R1 - x11R
             
@@ -307,16 +350,16 @@ adapted.cmh.test <- function(freq, coverage, Ne, gen, repl, poolSize=NULL, minco
               
               x_int1 <- freq_int * coverage_int
               
-              if(sum(x_int1==0)>0) {
-                x_int1[x_int1==0] <- rep(1,sum(x_int1==0))
-                warning('The counts of the intermediate generations assuming values 0 or equal the coverage of the considered 
-                        locus are changed to 1 and to coverage-1 respectively.')
-              }
-              if(sum(x_int1==coverage_int)>0){
-                x_int1[x_int1==coverage_int] <- coverage_int[x_int1==coverage_int]-1
-                warning('The counts of the intermediate generations assuming values 0 or equal the coverage of the considered 
-                        locus are changed to 1 and to coverage-1 respectively.')
-              } 
+             # if(sum(x_int1==0)>0) {
+             #   x_int1[x_int1==0] <- rep(1,sum(x_int1==0))
+             #   warning('The counts of the intermediate generations assuming values 0 or equal the coverage of the considered 
+             #           locus are changed to 1 and to coverage-1 respectively.')
+             # }
+             # if(sum(x_int1==coverage_int)>0){
+             #   x_int1[x_int1==coverage_int] <- coverage_int[x_int1==coverage_int]-1
+             #   warning('The counts of the intermediate generations assuming values 0 or equal the coverage of the considered 
+             #           locus are changed to 1 and to coverage-1 respectively.')
+             # } 
               
               x_int2 <- coverage_int - x_int1
               pool_int <- coverage_int
