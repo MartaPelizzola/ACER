@@ -201,10 +201,17 @@ adapted.chisq.test <- function(freq, coverage, Ne, gen, poolSize=NULL, mincov=1,
               }
             
             if (MeanStart==TRUE) {
-              allCountsVec <- cbind(as.numeric(x11),x_int1,as.numeric(x21))
-              allNVec <- cbind(as.numeric(x1),coverage_int,as.numeric(x2))
-              allFreqVec <- allCountsVec/allNVec
-              Ep2 <- rowMeans(allFreqVec)
+              if (nrow(freq)==1){
+                allCountsVec <- c(as.numeric(x11),x_int1,as.numeric(x21))
+                allNVec <- c(as.numeric(x1),coverage_int,as.numeric(x2))
+                allFreqVec <- allCountsVec/allNVec
+                Ep2 <- mean(allFreqVec)
+                } else {
+                allCountsVec <- cbind(as.numeric(x11),x_int1,as.numeric(x21))
+                allNVec <- cbind(as.numeric(x1),coverage_int,as.numeric(x2))
+                allFreqVec <- allCountsVec/allNVec
+                Ep2 <- rowMeans(allFreqVec)
+                }
             }
             
             if (TA==FALSE){
@@ -275,10 +282,17 @@ adapted.chisq.test <- function(freq, coverage, Ne, gen, poolSize=NULL, mincov=1,
               }
               
               if (MeanStart==TRUE) {
-                allCountsVec <- cbind(as.numeric(x11R),x_int1,as.numeric(x21R))
-                allNVec <- cbind(as.numeric(R1),coverage_int,as.numeric(R2))
-                allFreqVec <- allCountsVec/allNVec
-                Ep2 <- rowMeans(allFreqVec)
+                if (nrow(freq)==1){
+                  allCountsVec <- c(as.numeric(x11R),x_int1,as.numeric(x21R))
+                  allNVec <- c(as.numeric(R1),coverage_int,as.numeric(R2))
+                  allFreqVec <- allCountsVec/allNVec
+                  Ep2 <- mean(allFreqVec)
+                  } else {
+                  allCountsVec <- cbind(as.numeric(x11R),x_int1,as.numeric(x21R))
+                  allNVec <- cbind(as.numeric(R1),coverage_int,as.numeric(R2))
+                  allFreqVec <- allCountsVec/allNVec
+                  Ep2 <- rowMeans(allFreqVec)
+                  }
               }
               
               if (TA==FALSE){
