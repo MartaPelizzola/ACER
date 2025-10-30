@@ -24,10 +24,10 @@ numeric matrix containing the coverage information for each SNP, for each replic
 numeric vector specifying the known or estimated value for the effective population size for each replicate population. The order of the replicates must respect the structure of freq and coverage.
 }
   \item{gen}{
-numeric vector containing the time points in which the allele freqeuncy data are recorded. The order of the generations must respect the structure of freq and coverage.
+numeric vector containing the time points in which the allele frequency data are recorded. The order of the generations must respect the structure of freq and coverage and each time point information needs to only be specified once, the complete structure of replicates/generations is specified in the 'order' input variable (see below).
 }
   \item{repl}{
-numeric vector containing the replicates for which the allele freqeuncy data are recorded. The order of the replicates must respect the structure of freq and coverage.
+numeric vector containing the unique replicates for which the allele frequency data are recorded. The order of the replicates must respect the structure of freq and coverage and each replicate information needs to only be specified once, the complete structure of replicates/generations is specified in the 'order' input variable (see below).
 }
 
   \item{poolSize}{
